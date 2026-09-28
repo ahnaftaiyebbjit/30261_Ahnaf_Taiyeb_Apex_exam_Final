@@ -1,0 +1,33 @@
+// <--------- Question 5 -------->
+
+a->
+In the current error-handling implementation there is no clear error findings 
+just return an error that is not enough to find and debug the error
+
+b->
+public with sharing class ErrorHandling {
+    public static void handleError(){
+
+            Database.SaveResult saveResult =  Database.insert(insertLead, false);
+            if (!saveResult.isSuccess()) {
+                for(Database.Error err : saveResult.getErrors()) {
+                    System.debug('Message: ' + err.getMessage());
+
+                }
+            }
+    }
+}
+
+c->
+
+Meaningful exception handling should be structured when an operation may encounter DML errors.
+We should use try catch for gracefully handle errors then in the catch block we should catch the dml error
+try{
+    // code execution
+} catch (DMLException e){
+    system.debug(e);
+}
+
+d->
+In the saveResults we get the error message and error log. we should catch the whole save result object
+failed records will be there as well we can retry if we want and also read the message so we can clearly debug it

@@ -1,0 +1,37 @@
+A->
+Write the Validation Rule formula that prevents an Opportunity from being saved as Closed Won when
+Amount is blank or not greater than zero.
+
+AND(
+    IS_PICKVALUE('Closed Won', True),
+    OR(
+        IS_BLANK(Amount),
+        IS_TRUE(Amount < 0)
+    )
+
+)
+
+B->
+
+Describe the relevant sequence of processing for the automation listed in the scenario, including the
+Validation Rule, before-save automation, before trigger, after trigger, and later record automation. (3
+Marks)
+
+In respect of Save order of execution the given flow will go like this 
+A validation rule will check first if data input is validat then
+A before update Apex trigger will calculate Risk_Level__c. then
+An after update Apex trigger creates an Opportunity_Stage_Audit__c record when Stage changes.
+Additional record automation may update another Opportunity field after the initial save.
+
+C->
+
+An Apex trigger may execute more than once during what the user considers a single save
+because before update after update and before save will trigger multiple times
+impact on the audit-record creation will be inconsistent.
+
+D->
+Design an approach that prevents duplicate audit creation while still correctly detecting genuine Stage
+changes using the available trigger context data.
+
+If the process can be shrink down to 2 steps that we can save a lot of Data manupulation
+like validating data at the first then use before and after to track the stage and do the recquire things

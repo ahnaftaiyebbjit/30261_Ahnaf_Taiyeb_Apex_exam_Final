@@ -1,0 +1,43 @@
+// <------- QUESTION 4 -------->
+
+
+An organization has created a custom object called Customer_Assessment__c.
+A developer writes an Apex class that:
+● Retrieves Customer Assessment records.
+● Reads the fields Risk_Score__c and Internal_Comment__c.
+● Updates Approval_Status__c.
+The class is called by users with different profiles and permission sets. During a security review, it is
+discovered that some users can execute the Apex code even though they should not be able to view certain
+assessment records or access Internal_Comment__c.
+
+
+a-> Explain the difference between record-level access and object/field-level access in the context of this
+scenario. (2 Marks)
+
+record-level access restrict an user to see other records that he is not he owner of 
+field and object level access restricts the user to do crud operation on certain objects and fields in that object
+
+b->
+I would design the Apex class declaration and data-access operations in this way 
+in class declartion 'with sharing' and in data access query 'WITH USER_MODE' and in the insert operation 'as user'
+
+
+C->
+In the query operation I would use WITH USER_MODE so that my query respect the other permission checking
+
+D->
+Assuming the class currently executes its query and DML operations without considering the running user’s
+access. Then there are security risks like user who don't have the permission can access and manupulate data that 
+they shouldn't have.
+I would redesign it like this first set the permission_set, then create different profiles and assign different users under the profile
+Then I will ensure field level security and row level security 
+
+
+
+
+
+
+
+
+
+

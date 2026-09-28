@@ -1,0 +1,41 @@
+<--------- Question 8 ------>
+
+d->
+performing callout is best in the async apex. so that user ui doesn't get
+freeze and user see a loader for a long time. rather we should use different
+triggers to call an async function and do that callout in the background
+
+a->
+I would configure and use a Named Credential for this integration  and 
+Apex would reference the configured endpoint when performing the callout like this 
+
+create an external cred. save the url and in the principle cred i would save my token for auth endpoint
+and add the principle cred in the custom header. then connect the external cred with the named cred
+In apex - 
+req.setEndpoint('callout:namedCredentialName/myurl')
+
+
+b->
+
+class data{
+    string curr;
+    decimal exRate;
+}
+
+Http http = new Http();
+HttpRequest req = new HttpRequest();
+string curr;
+req.setMethod('POST');
+req.setHeader('Content-Type', 'application/json');
+req.setEndpoint(':callout'/:curr);
+
+HttpResponse res = http.send(req);
+
+(data)http.deserilize(res)
+
+this.exhangeRateData = exRate;
+
+
+
+
+
